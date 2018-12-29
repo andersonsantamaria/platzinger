@@ -1,0 +1,42 @@
+img.frame {
+  width: 150px;
+}
+
+.conversationFrame {
+  min-height: 22em;
+  overflow: auto;
+  height: 22em;
+  width: 85%;
+  margin-left: 0px;
+}
+
+.heightbutton40 {
+  height: 40px;
+}
+
+img.bubble {
+  width: 30px;
+  height: 30px;
+  border-radius: 150px;
+}
+
+.own {
+  padding-left: 50%;
+}
+
+#message {
+  -moz-border-radius: 10px 10px 10px 10px;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  padding: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.ownMessage {
+  background: #bee5f9;
+}
+
+.otherMessage {
+  background: #e8e8e8;
+}
