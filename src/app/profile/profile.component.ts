@@ -14,6 +14,7 @@ export class ProfileComponent implements OnInit {
   user: User;
   imageChangedEvent: any = '';
   croppedImage: any = '';
+  picture: any = '';
 
   constructor(private userService: UserService, private authenticationService: AuthenticationService, private angularFireStorage: AngularFireStorage) {
     this.authenticationService.getStatus().subscribe(
@@ -41,6 +42,22 @@ export class ProfileComponent implements OnInit {
     if (this.croppedImage) {
       const currentPictureId = Date.now();
       const pictures = this.angularFireStorage.ref('pictures/' + currentPictureId + ".jpg").putString(this.croppedImage, 'data_url');
+      pictures.then((result) => {
+        this.picture = this.angularFireStorage.ref('pictures/' + currentPictureId + ".jpg").getDownloadURL();
+        this.picture.subscribe((picture) => {
+          this.userService.setAvatar(picture, this.user.uid).then(() => {
+            alert('Imagen guardada');
+          }).catch(
+            (error) => {
+              alert("Ocurrio un error");
+              console.log(error);
+            }
+          );
+        });
+      }).catch((error) => {
+        console.log(error);
+      });
+
     } else {
       this.userService.editUser(this.user).then(
         (data) => {

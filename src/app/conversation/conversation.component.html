@@ -108,7 +108,7 @@
 
       <div class="col-md-9">
         <div class="row">
-          <textarea name="name" rows="5" cols="100"></textarea>
+          <textarea name="name" rows="5" cols="100" [(ngModel)]="textMessage" (Keyup.enter)="sendMessage()"></textarea>
         </div>
         <div class="row marto15">
           <img src="assets/img/icons/regular_smile.gif" alt="zumbido" class="icon_bottom_bar">
