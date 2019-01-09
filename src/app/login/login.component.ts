@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit {
     this.authenticationService.loginWihtEmail(this.email, this.password).then(
       (data) => {
         alert('Loggeado correctamente');
-        console.log(data);
         this.router.navigate(['/home']);
       }
     ).catch(
@@ -47,7 +46,6 @@ export class LoginComponent implements OnInit {
         this.userService.createUser(user).then(
           (dataCreate) => {
             alert('Registrado correctamente');
-            console.log(dataCreate);
           }
         ).catch(
           (errorCreate) => {
@@ -57,7 +55,6 @@ export class LoginComponent implements OnInit {
         );
 
         alert('Registrado correctamente');
-        console.log(data);
       }
     ).catch(
       (error) => {

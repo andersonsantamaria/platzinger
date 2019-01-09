@@ -17,6 +17,7 @@ export class ConversationComponent implements OnInit {
   user: User;
   conversationId: string;
   textMessage: string;
+  conversation: any[];
 
   constructor(private activatedRoute: ActivatedRoute, private userService: UserService, private conversationService: ConversationService, private authenticationService: AuthenticationService) {
     this.friendId = this.activatedRoute.snapshot.params['uid'];
@@ -28,10 +29,10 @@ export class ConversationComponent implements OnInit {
             this.user = user;
             this.userService.getUserById(this.friendId).valueChanges().subscribe(
               (data: User) => {
-                console.log(data);
                 this.friend = data;
                 const ids = [this.user.uid, this.friend.uid].sort();
                 this.conversationId = ids.join('|');
+                this.getConversation();
               },
               (error) => {
                 console.log(error)
@@ -46,13 +47,14 @@ export class ConversationComponent implements OnInit {
   ngOnInit() {
   }
 
-  sendMessage(){
+  sendMessage() {
     const message = {
       uid: this.conversationId,
       timestamp: Date.now(),
       text: this.textMessage,
       sender: this.user.uid,
-      receiver: this.friend.uid
+      receiver: this.friend.uid,
+      seen: false
     };
     this.conversationService.createConversation(message).then(
       () => {
@@ -62,5 +64,30 @@ export class ConversationComponent implements OnInit {
 
       }
     );
+  }
+
+  getConversation() {
+    this.conversationService.getConversation(this.conversationId).valueChanges().subscribe(
+      (data) => {
+        this.conversation = data;
+        this.conversation.forEach(
+          (message) => {
+            if (message.sender != this.user.uid && !message.seen) {
+              message.seen = true;
+              this.conversationService.editConversation(message);
+              const AUDIO = new Audio('assets/sound/new_message.m4a');
+              AUDIO.play();
+            }
+          }
+        );
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  getNickName(uid) {
+    return (uid == this.friend.uid) ? this.friend.nick : this.user.nick;
   }
 }

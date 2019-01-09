@@ -9,89 +9,27 @@
 
       <div class="col-md-9">
         <div class="container conversationFrame">
-          <div id="nickFriend" class="marbo15">
-            <b>{{friend.nick}}</b> {{'{'+friend.state+'}'}}
+          <div *ngIf="friend" id="nickFriend" class="marbo15">
+            <b>{{friend.nick || 'No nick'}}</b> {{'{'+friend.state+'}'}}
             <br>
             <small>{{friend.subnick || 'No subnick'}}</small>
           </div>
-          <div class="conversation">
-            <div>
-              <div id="nickConversation">
-                <img class="img-fluid bubble" src="assets/img/generic_avatar.png" alt="Avatar generico">
-                {{friend.nick}} dice:
-              </div>
-              <div id="message" class="otherMessage">
-                • Hola
-              </div>
-            </div>
 
-            <div class="own">
+          <div *ngIf="conversation && conversation.length === 0" class="conversation">
+            <div id="message" class="otherMessage">
+              Aún no has iniciado una conversación con {{friend.nick}}
+            </div>
+          </div>
+
+          <div class="conversation" *ngFor="let message of conversation">
+
+            <div [ngClass]="{own: message.sender == this.user.uid}" *ngIf="friend && conversation">
               <div id="nickConversation">
                 <img class=" img-fluid bubble" src="assets/img/generic_avatar.png" alt="Avatar generico">
-                Anderson dice:
+                {{getNickName(message.sender)}} dice:
               </div>
-              <div id="message" class="ownMessage">
-                • Hola, ¿Cómo estás?
-              </div>
-            </div>
-
-            <div>
-              <div id="nickConversation">
-                <img class="img-fluid bubble" src="assets/img/generic_avatar.png" alt="Avatar generico">
-                {{friend.nick}} dice:
-              </div>
-              <div id="message" class="otherMessage">
-                • Muy bien, ¿y tú?
-              </div>
-            </div>
-
-            <div class="own">
-              <div id="nickConversation">
-                <img class=" img-fluid bubble" src="assets/img/generic_avatar.png" alt="Avatar generico">
-                Anderson dice:
-              </div>
-              <div id="message" class="ownMessage">
-                • que bueno, yo bien, estudiando
-              </div>
-            </div>
-
-            <div>
-              <div id="nickConversation">
-                <img class="img-fluid bubble" src="assets/img/generic_avatar.png" alt="Avatar generico">
-                {{friend.nick}} dice:
-              </div>
-              <div id="message" class="otherMessage">
-                • ¿Cómo va el curso?
-              </div>
-            </div>
-
-            <div class="own">
-              <div id="nickConversation">
-                <img class=" img-fluid bubble" src="assets/img/generic_avatar.png" alt="Avatar generico">
-                Anderson dice:
-              </div>
-              <div id="message" class="ownMessage">
-                • Excelente, aprendiendo mucho
-              </div>
-            </div>
-
-            <div>
-              <div id="nickConversation">
-                <img class="img-fluid bubble" src="assets/img/generic_avatar.png" alt="Avatar generico">
-                {{friend.nick}} dice:
-              </div>
-              <div id="message" class="otherMessage">
-                • me alegra saberlo
-              </div>
-            </div>
-
-            <div class="own">
-              <div id="nickConversation">
-                <img class=" img-fluid bubble" src="assets/img/generic_avatar.png" alt="Avatar generico">
-                Anderson dice:
-              </div>
-              <div id="message" class="ownMessage">
-                • vale, que estés bien
+              <div id="message" [ngClass]="{ownMessage: message.sender == this.user.uid}" [ngClass]="{otherMessage: message.sender != this.user.uid}">
+                • {{message.text}}
               </div>
             </div>
 
@@ -119,7 +57,7 @@
             <input type="file" name="" value="">Seleccionar archivo
           </label>
 
-          <a class="btn btn-primary marle15 heightbutton40 justify-content-right">Enviar</a>
+          <a class="btn btn-primary marle15 heightbutton40 justify-content-right" (click)="sendMessage()">Enviar</a>
         </div>
       </div>
     </div>

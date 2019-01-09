@@ -7,16 +7,16 @@
             <img src="assets/img/generic_avatar.png" alt="login" id="homeAvatarPicture">
           </div>
         </div>
-        <div class="col">
-          <b>Anderson</b>
-          <div class="">
-            <span>Online</span>
+        <div class="col context-menu" *ngIf="user">
+          <b>{{user.nick}}</b>
+          <div>
+            <span>{{user.state}}</span>
             <br>
             <span>
-              < Escribe un mensaje personal>
+              < {{user.subnick}}>
             </span>
             <br>
-            <a (click)="logOut()">logOut</a>
+            <a (click)="logOut()" class="pointer">logOut</a>
           </div>
         </div>
       </div>
@@ -33,11 +33,11 @@
       </div>
     </div>
     <hr>
-    <b *ngIf="friends">Amigos ({{friends.length}} / {{friends.length}})</b>
-    <div *ngFor="let user of friends | search: query; let i = index" class="disblo marbo5">
-      <span routerLink="/conversation/{{user.uid}}">
-        <img id="status" src="assets/img/logo_live_{{user.state}}.png" alt="status" class="icon">
-        {{i + 1}}. <b>{{user.nick}}</b> - {{user.subnick || 'No subnick'}} <small>{{user.email}}</small>
+    <b class="context-menu" *ngIf="friends">Amigos ({{friends.length - 1}} / {{friends.length - 1}})</b>
+    <div *ngFor="let friend of friends | search: query; let i = index" class="disblo marbo5">
+      <span  class="pointer" *ngIf="friend.uid != user.uid" routerLink="/conversation/{{friend.uid}}">
+        <img id="status" src="assets/img/logo_live_{{friend.state}}.png" alt="status" class="icon">
+        <b>{{friend.nick}}</b> - {{friend.subnick || 'No subnick'}} <small>{{friend.email}}</small>
       </span>
     </div>
   </div>

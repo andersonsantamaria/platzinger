@@ -96,16 +96,24 @@ input[type="file"] {
   background-repeat: no-repeat;
 }
 
-img.icon{
+img.icon {
   width: 30px;
 }
 
-img.icon_bottom_bar_zumbido{
+img.icon_bottom_bar_zumbido {
   width: 50px;
   height: 30px;
 }
 
-img.icon_bottom_bar{
+img.icon_bottom_bar {
   width: 25px;
   height: 30px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.context-menu {
+  cursor: context-menu;
 }
